@@ -1,0 +1,1 @@
+{"saltMap":{"Steam":[{"salt":"MGVwU0xpcHc2NnQ2akdyaU5FVzN6dQ==","obsolete":false}]},"services":[{"name":"Steam","subServices":[["org.x42bn6.nopassword.ApplicationSubService",{"uri":null}],["org.x42bn6.nopassword.DomainSubService",{"domain":"steampowered.com"}]]}]}
