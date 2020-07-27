@@ -13,8 +13,8 @@ import java.util.Collection;
  *     <li>Service: Steam</li>
  *     <li>
  *         <ol>
- *             <li>Sub-service: Steam application ({@link ApplicationSubService})</li>
- *             <li>Sub-service: Steam 2FA application ({@link ApplicationSubService})</li>
+ *             <li>Sub-service: Steam application ({@link NamedSubService})</li>
+ *             <li>Sub-service: Steam 2FA application ({@link NamedSubService})</li>
  *             <li>Sub-service: steampowered.com ({@link DomainSubService})</li>
  *             <li>Sub-service: steamcommunity.com ({@link DomainSubService})</li>
  *         </ol>

@@ -8,7 +8,7 @@ import com.fasterxml.jackson.annotation.JsonTypeInfo;
         property = "__type"
 )
 @JsonSubTypes({
-        @JsonSubTypes.Type(value = ApplicationSubService.class, name = "applicationSubService"),
+        @JsonSubTypes.Type(value = NamedSubService.class, name = "namedSubService"),
         @JsonSubTypes.Type(value = DomainSubService.class, name = "domainSubService")
 })
 public interface SubService {

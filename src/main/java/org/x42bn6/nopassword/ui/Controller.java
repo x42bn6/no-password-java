@@ -33,18 +33,20 @@ public class Controller {
      * Loads the salts from the input file, and updates the UI.
      *
      * @param file The file
+     * @return The salts loaded
      */
-    public void loadSalts(File file) {
+    public Salts loadSalts(File file) {
         ObjectMapper objectMapper = getObjectMapper();
         Salts salts;
         try {
-            //noinspection unchecked
             salts = objectMapper.readValue(Files.newBufferedReader(file.toPath()), Salts.class);
         } catch (IOException e) {
             throw new NoPasswordException("Got I/O exception while loading file " + file, e);
         }
 
         model.setSalts(salts);
+        model.setSaveFile(file);
+        return salts;
     }
 
     /**
@@ -61,8 +63,6 @@ public class Controller {
     }
 
     private ObjectMapper getObjectMapper() {
-        final ObjectMapper objectMapper = new ObjectMapper();
-        //objectMapper.enableDefaultTyping();
-        return objectMapper;
+        return new ObjectMapper();
     }
 }

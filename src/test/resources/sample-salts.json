@@ -1,1 +1,72 @@
-{"saltMap":{"Steam":[{"salt":"MGVwU0xpcHc2NnQ2akdyaU5FVzN6dQ==","obsolete":false}]},"services":[{"name":"Steam","subServices":[["org.x42bn6.nopassword.ApplicationSubService",{"uri":null}],["org.x42bn6.nopassword.DomainSubService",{"domain":"steampowered.com"}]]}]}
+{
+  "saltMap": {
+    "Google": [
+      {
+        "salt": "dWJta3oyT09wUE5rSUdxVW92WDUydQ==",
+        "obsolete": false
+      }
+    ],
+    "Steam": [
+      {
+        "salt": "dVFmcm54NVdOeDVxdEZrOFVKVHdaZQ==",
+        "obsolete": false
+      }
+    ]
+  },
+  "services": [
+    {
+      "name": "Steam",
+      "subServices": [
+        [
+          "org.x42bn6.nopassword.NamedSubService",
+          {
+            "name": "Steam"
+          }
+        ],
+        [
+          "org.x42bn6.nopassword.DomainSubService",
+          {
+            "domain": "steampowered.com"
+          }
+        ]
+      ]
+    },
+    {
+      "name": "Google",
+      "subServices": [
+        [
+          "org.x42bn6.nopassword.NamedSubService",
+          {
+            "name": "Google Authenticator"
+          }
+        ],
+        [
+          "org.x42bn6.nopassword.DomainSubService",
+          {
+            "domain": "google.com"
+          }
+        ],
+        [
+          "org.x42bn6.nopassword.DomainSubService",
+          {
+            "domain": "youtube.com"
+          }
+        ]
+      ]
+    }
+  ],
+  "data": {
+    "org.x42bn6.nopassword.Service@64030b91": [
+      {
+        "salt": "dVFmcm54NVdOeDVxdEZrOFVKVHdaZQ==",
+        "obsolete": false
+      }
+    ],
+    "org.x42bn6.nopassword.Service@3eed0f5": [
+      {
+        "salt": "dWJta3oyT09wUE5rSUdxVW92WDUydQ==",
+        "obsolete": false
+      }
+    ]
+  }
+}
