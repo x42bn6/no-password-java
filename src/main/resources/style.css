@@ -1,0 +1,7 @@
+.even {
+    -fx-background-color: #eee;
+}
+
+.odd {
+    -fx-background-color: #ccc;
+}

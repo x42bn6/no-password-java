@@ -133,6 +133,23 @@ public class Salts {
         }
     }
 
+    /**
+     * Returns all of the data, stored as a map, mapping the service to the associated credential metadata.
+     */
+    public Map<Service, Collection<CredentialMetadata>> getData() {
+        Map<Service, Collection<CredentialMetadata>> result = new HashMap<>();
+        for (Map.Entry<String, Collection<CredentialMetadata>> entry : saltMap.entrySet()) {
+            final Optional<Service> first = services.stream().filter((service) -> service.getName().equals(entry.getKey())).findFirst();
+            if (first.isEmpty()) {
+                throw new IllegalStateException("Unable to find corresponding service for service name " + entry.getKey());
+            }
+
+            result.put(first.get(), entry.getValue());
+        }
+
+        return result;
+    }
+
     private static final class MaybeExistingSalt {
         private final boolean newSalt;
         private final byte[] salt;
