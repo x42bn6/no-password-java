@@ -106,7 +106,7 @@ public class NoPassword extends javafx.application.Application {
         return menuBar;
     }
 
-    public void loadSalts(Stage stage) {
+    private void loadSalts(Stage stage) {
         final File file = fileChooser.showOpenDialog(stage);
         loadSalts(file);
     }

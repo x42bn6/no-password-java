@@ -23,6 +23,13 @@
         </dependency>
 
         <dependency>
+            <groupId>com.lambdaworks</groupId>
+            <artifactId>scrypt</artifactId>
+            <version>1.4.0</version>
+        </dependency>
+
+
+        <dependency>
             <groupId>org.junit.jupiter</groupId>
             <artifactId>junit-jupiter</artifactId>
             <version>${junit.version}</version>
@@ -46,6 +53,7 @@
             <artifactId>jackson-databind</artifactId>
             <version>${jackson.version}</version>
         </dependency>
+
         <dependency>
             <groupId>org.mockito</groupId>
             <artifactId>mockito-core</artifactId>

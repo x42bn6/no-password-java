@@ -3,8 +3,8 @@ module org.x42bn6.nopassword {
     requires javafx.controls;
 
     requires bcrypt;
-
     requires com.fasterxml.jackson.databind;
+    requires scrypt;
 
     opens org.x42bn6.nopassword to com.fasterxml.jackson.databind;
 
