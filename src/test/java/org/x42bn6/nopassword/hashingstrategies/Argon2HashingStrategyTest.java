@@ -25,5 +25,4 @@ class Argon2HashingStrategyTest {
         assertArrayEquals(firstRun.getSalt(), secondRun.getSalt());
         assertArrayEquals(firstRun.getPassword(), secondRun.getPassword());
     }
-
 }
