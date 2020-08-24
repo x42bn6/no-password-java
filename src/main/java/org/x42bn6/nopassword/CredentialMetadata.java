@@ -1,5 +1,7 @@
 package org.x42bn6.nopassword;
 
+import org.x42bn6.nopassword.hashingstrategies.HashingStrategy;
+
 /**
  * A {@code Salt} represents the BCrypt salt associated with a {@link Service}.  A {@link CredentialMetadata} also
  * contains some metadata about the salt, such as the time at which it was generated, whether it is obsolete or not (as
@@ -8,6 +10,11 @@ package org.x42bn6.nopassword;
  */
 public class CredentialMetadata {
     /**
+     * The hashing strategy associated with the credential (bcrypt/scrypt/argon2).
+     */
+    private final HashingStrategy hashingStrategy;
+
+    /**
      * The BCrypt salt associated with the credential, in Base64 format (length 22, not 16).
      */
     private final byte[] salt;
@@ -15,11 +22,12 @@ public class CredentialMetadata {
     // Only used in serialization
     @SuppressWarnings("unused")
     private CredentialMetadata() {
-        this(new byte[0]);
+        this(new byte[0], null);
     }
 
-    public CredentialMetadata(byte[] salt) {
+    public CredentialMetadata(byte[] salt, HashingStrategy hashingStrategy) {
         this.salt = salt;
+        this.hashingStrategy = hashingStrategy;
     }
 
     public byte[] getSalt() {

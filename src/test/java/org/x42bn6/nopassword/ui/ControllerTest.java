@@ -7,6 +7,7 @@ import org.x42bn6.nopassword.DomainSubService;
 import org.x42bn6.nopassword.NamedSubService;
 import org.x42bn6.nopassword.Salts;
 import org.x42bn6.nopassword.Service;
+import org.x42bn6.nopassword.hashingstrategies.ScryptHashingStrategy;
 
 import java.io.File;
 import java.nio.charset.StandardCharsets;
@@ -36,13 +37,13 @@ class ControllerTest {
     void saveSalts() {
         Salts salts = new Salts();
 
-        Service steam = new Service("Steam");
+        Service steam = new Service("Steam", new ScryptHashingStrategy());
         steam.addSubService(new NamedSubService("Steam"));
         steam.addSubService(new DomainSubService("steampowered.com"));
         salts.getPasswordForService(steam, UNHASHED_PASSWORD);
         salts.addService(steam);
 
-        Service google = new Service("Google");
+        Service google = new Service("Google", new ScryptHashingStrategy());
         google.addSubService(new NamedSubService("Google Authenticator"));
         google.addSubService(new DomainSubService("google.com"));
         google.addSubService(new DomainSubService("youtube.com"));

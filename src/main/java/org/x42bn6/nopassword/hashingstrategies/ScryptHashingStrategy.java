@@ -1,6 +1,7 @@
 package org.x42bn6.nopassword.hashingstrategies;
 
 import at.favre.lib.crypto.bcrypt.Radix64Encoder;
+import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.lambdaworks.crypto.SCrypt;
 import org.x42bn6.nopassword.NoPasswordException;
 
@@ -10,12 +11,16 @@ import java.nio.charset.StandardCharsets;
 import java.security.GeneralSecurityException;
 import java.security.SecureRandom;
 
+import static com.fasterxml.jackson.annotation.JsonAutoDetect.Visibility.ANY;
+import static com.fasterxml.jackson.annotation.JsonAutoDetect.Visibility.NONE;
+
 /**
  * {@code ScryptHashingStrategy} is a cryptographic hashing strategy that employs the
  * <a href="https://en.wikipedia.org/wiki/scrypt">scrypt</a> hashing scheme, outputing a PDC hash.
  * <p>
  * The underlying library used is <a href="https://github.com/wg/scrypt">Will Glozer's implementation</a>.
  */
+@JsonAutoDetect(fieldVisibility = ANY, getterVisibility = NONE)
 public class ScryptHashingStrategy implements HashingStrategy {
     public static final int DEFAULT_COST = 16384;
     public static final int DEFAULT_BLOCK_SIZE_FACTOR = 8;
@@ -74,6 +79,7 @@ public class ScryptHashingStrategy implements HashingStrategy {
             byte[] hashedPassword = SCrypt.scrypt(unhashedPassword, salt, cost, blockSizeFactor, parallelisationFactor,
                     DERIVED_KEY_LENGTH);
 
+            // Taken from SCryptUtil
             String params = Long.toString(log2(cost) << 16L | blockSizeFactor << 8 | parallelisationFactor, 16);
 
             byte[] separatorBytes = "$".getBytes(DEFAULT_ENCODING);
@@ -102,11 +108,6 @@ public class ScryptHashingStrategy implements HashingStrategy {
         } catch (GeneralSecurityException e) {
             throw new NoPasswordException("Unable to find algorithm [" + PRNG_ALGORITHM + "]", e);
         }
-    }
-
-    private int appendBytesToFormattedOutput(byte[] bytes, byte[] output, int index) {
-        System.arraycopy(bytes, 0, output, index, bytes.length);
-        return bytes.length;
     }
 
     private static int log2(int n) {

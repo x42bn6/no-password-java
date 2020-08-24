@@ -1,6 +1,7 @@
 package org.x42bn6.nopassword;
 
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
+import org.x42bn6.nopassword.hashingstrategies.HashingStrategy;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -45,13 +46,23 @@ public class Service {
         return subServices;
     }
 
+    /**
+     * The hashing strategy to be used by the service.
+     */
+    private final HashingStrategy hashingStrategy;
+
+    public HashingStrategy getHashingStrategy() {
+        return hashingStrategy;
+    }
+
     // Only used in serialization
     @SuppressWarnings("unused")
     private Service() {
-        this(null);
+        this(null, null);
     }
 
-    public Service(String name) {
+    public Service(String name, HashingStrategy hashingStrategy) {
         this.name = name;
+        this.hashingStrategy = hashingStrategy;
     }
 }

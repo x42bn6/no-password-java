@@ -1,8 +1,9 @@
 package org.x42bn6.nopassword;
 
-import at.favre.lib.crypto.bcrypt.BCrypt;
-import at.favre.lib.crypto.bcrypt.Radix64Encoder;
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import org.x42bn6.nopassword.hashingstrategies.HashOutput;
+import org.x42bn6.nopassword.hashingstrategies.HashingStrategy;
 
 import java.util.*;
 import java.util.stream.Collectors;
@@ -15,15 +16,6 @@ import static com.fasterxml.jackson.annotation.JsonAutoDetect.Visibility.ANY;
  */
 @JsonAutoDetect(fieldVisibility = ANY)
 public class Salts {
-    public static final int PREFIX_LENGTH = BCrypt.Version.VERSION_2A.versionIdentifier.length;
-    public static final int COST = 6;
-    public static final int COST_LENGTH_OCTAL = 2;
-    public static final int HASHED_PASSWORD_LENGTH = 31;
-    public static final int SEPARATOR_LENGTH = 1;
-    public static final int SALT_LENGTH = 22;
-    //                                           $                  2a              $                  06                  $
-    public static final int LENGTH_BEFORE_SALT = SEPARATOR_LENGTH + PREFIX_LENGTH + SEPARATOR_LENGTH + COST_LENGTH_OCTAL + SEPARATOR_LENGTH;
-
     // Dependencies
 
 
@@ -59,38 +51,20 @@ public class Salts {
      */
     public byte[] getPasswordForService(Service service, byte[] unhashedPassword) {
         MaybeExistingSalt existingSalt = getExistingSalt(service);
-        byte[] output;
+        HashOutput hashOutput;
         boolean isNewSalt = existingSalt.newSalt;
+        final HashingStrategy hashingStrategy = service.getHashingStrategy();
         if (isNewSalt) {
-            output = generateHashWithNewSalt(unhashedPassword);
+            hashOutput = hashingStrategy.generateHashWithNewSalt(unhashedPassword);
         } else {
-            Radix64Encoder.Default radix64Encoder = new Radix64Encoder.Default();
-            byte[] decodedSalt = radix64Encoder.decode(existingSalt.salt);
-            output = generateHashWithExistingSalt(decodedSalt, unhashedPassword);
+            hashOutput = hashingStrategy.generateHashWithExistingSalt(existingSalt.salt, unhashedPassword);
         }
-
-        byte[] salt = new byte[SALT_LENGTH];
-        byte[] hashedPassword = new byte[HASHED_PASSWORD_LENGTH];
-        // Sample hash:
-        // $2a$06$Xj6qWTDv.Jbhk8Z44PHolewAq4uwZrBjwUplueEk0ns1kstNsCWri
-        // |A |B |C                    |D                             |
-        // A = prefix, B = cost (0x), C = salt, D = password
-        System.arraycopy(output, LENGTH_BEFORE_SALT, salt, 0, SALT_LENGTH);
-        System.arraycopy(output, LENGTH_BEFORE_SALT + SALT_LENGTH, hashedPassword, 0, HASHED_PASSWORD_LENGTH);
 
         if (isNewSalt) {
-            bindServiceAndNewSalt(service, salt);
+            bindServiceAndNewSalt(service, hashOutput.getSalt());
         }
 
-        return hashedPassword;
-    }
-
-    private byte[] generateHashWithNewSalt(byte[] unhashedPassword) {
-        return BCrypt.withDefaults().hash(COST, unhashedPassword);
-    }
-
-    private byte[] generateHashWithExistingSalt(byte[] salt, byte[] unhashedPassword) {
-        return BCrypt.withDefaults().hash(COST, salt, unhashedPassword);
+        return hashOutput.getPassword();
     }
 
     private void bindServiceAndNewSalt(Service service, byte[] salt) {
@@ -99,13 +73,7 @@ public class Salts {
                     "]; cannot bind a new one");
         }
 
-        int saltLength = salt.length;
-        if (saltLength != SALT_LENGTH) {
-            throw new IllegalArgumentException("Invalid salt length, expected " + SALT_LENGTH + " (Base64 encoding of" +
-                    " 16 bytes), obtained " + saltLength);
-        }
-
-        CredentialMetadata credentialMetadata = new CredentialMetadata(salt);
+        CredentialMetadata credentialMetadata = new CredentialMetadata(salt, service.getHashingStrategy());
         // Don't use singletonList for serialization (may want to add more later)
         Collection<CredentialMetadata> value = new ArrayList<>();
         value.add(credentialMetadata);
@@ -136,6 +104,7 @@ public class Salts {
     /**
      * Returns all of the data, stored as a map, mapping the service to the associated credential metadata.
      */
+    @JsonIgnore
     public Map<Service, Collection<CredentialMetadata>> getData() {
         Map<Service, Collection<CredentialMetadata>> result = new HashMap<>();
         for (Map.Entry<String, Collection<CredentialMetadata>> entry : saltMap.entrySet()) {
