@@ -72,7 +72,7 @@ public class Argon2HashingStrategy implements HashingStrategy {
      *     <dt>Type</dt>
      *     <dd>Argon2id</dd>
      *     <dt>Memory cost</dt>
-     *     <dd>65536 (64 Mb)</dd>
+     *     <dd>256 MB</dd>
      *     <dt>Time cost</dt>
      *     <dd>3</dd>
      *     <dt>Parallelism</dt>
@@ -115,7 +115,7 @@ public class Argon2HashingStrategy implements HashingStrategy {
     }
 
     public static class Builder {
-        public static final int DEFAULT_MEMORY_COST = 65536;
+        public static final int DEFAULT_MEMORY_COST = 256 * 1024;
         public static final int DEFAULT_TIME_COST = 3;
         public static final int DEFAULT_PARALLELISM = 4;
         public static final int DEFAULT_SALT_LENGTH = 16;
@@ -133,31 +133,66 @@ public class Argon2HashingStrategy implements HashingStrategy {
             return this;
         }
 
+        /**
+         * The memory cost, in kB (default: 256 MB).
+         *
+         * @param memoryCost The memory cost to use
+         * @return The builder
+         */
         public Builder memoryCost(int memoryCost) {
             this.memoryCost = memoryCost;
             return this;
         }
 
+        /**
+         * The time cost, measured in terms of iterations (default: 3).
+         *
+         * @param timeCost The time cost to use
+         * @return The builder
+         */
         public Builder timeCost(int timeCost) {
             this.timeCost = timeCost;
             return this;
         }
 
+        /**
+         * The level of parallelism required.  Recommendation is twice the number of available cores (default: 4).
+         *
+         * @param parallelism The parallelism cost
+         * @return The builder
+         */
         public Builder parallelism(int parallelism) {
             this.parallelism = parallelism;
             return this;
         }
 
+        /**
+         * The salt length (default: 16).
+         *
+         * @param saltLength The salt length
+         * @return The builder
+         */
         public Builder saltLength(int saltLength) {
             this.saltLength = saltLength;
             return this;
         }
 
+        /**
+         * The hash length (default: 32).
+         *
+         * @param hashLength The hash length
+         * @return The builder
+         */
         public Builder hashLength(int hashLength) {
             this.hashLength = hashLength;
             return this;
         }
 
+        /**
+         * Builds the hashing strategy with the specified inputs.
+         *
+         * @return The configured strategy
+         */
         public Argon2HashingStrategy build() {
             return new Argon2HashingStrategy(this);
         }
