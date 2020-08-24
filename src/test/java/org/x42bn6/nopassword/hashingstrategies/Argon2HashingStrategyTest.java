@@ -5,24 +5,25 @@ import org.junit.jupiter.api.Test;
 
 import java.nio.charset.StandardCharsets;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertArrayEquals;
 
-class BcryptHashingStrategyTest {
+class Argon2HashingStrategyTest {
 
     public static final byte[] UNHASHED_PASSWORD = "password".getBytes(StandardCharsets.UTF_8);
-    private BcryptHashingStrategy bcryptHashingStrategy;
+    private Argon2HashingStrategy argon2HashingStrategy;
 
     @BeforeEach
     void setUp() {
-        bcryptHashingStrategy = new BcryptHashingStrategy();
+        argon2HashingStrategy = Argon2HashingStrategy.withDefaultParameters();
     }
 
     @Test
     void generateHash() {
-        final HashOutput firstRun = bcryptHashingStrategy.generateHashWithNewSalt(UNHASHED_PASSWORD);
-        final HashOutput secondRun = bcryptHashingStrategy.generateHashWithExistingSalt(firstRun.getSalt(), UNHASHED_PASSWORD);
+        final HashOutput firstRun = argon2HashingStrategy.generateHashWithNewSalt(UNHASHED_PASSWORD);
+        final HashOutput secondRun = argon2HashingStrategy.generateHashWithExistingSalt(firstRun.getSalt(), UNHASHED_PASSWORD);
 
         assertArrayEquals(firstRun.getSalt(), secondRun.getSalt());
         assertArrayEquals(firstRun.getPassword(), secondRun.getPassword());
     }
+
 }

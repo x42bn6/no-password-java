@@ -2,13 +2,13 @@
   "saltMap": {
     "Google": [
       {
-        "salt": "R0JULnY0U1pnT01Bd3FDYkZUZ1ZaLg==",
+        "salt": "5wOEn18OpxOChm5wk2eAoA==",
         "obsolete": false
       }
     ],
     "Steam": [
       {
-        "salt": "dy51bTBQaXJaYm5KWGlJZXhaeC9MZQ==",
+        "salt": "PR4hzOLfn1yE9GgGimMkRQ==",
         "obsolete": false
       }
     ]
@@ -31,10 +31,13 @@
         ]
       ],
       "hashingStrategy": {
-        "__type": "org.x42bn6.nopassword.hashingstrategies.ScryptHashingStrategy",
-        "cost": 16384,
-        "blockSizeFactor": 8,
-        "parallelisationFactor": 1
+        "__type": "org.x42bn6.nopassword.hashingstrategies.Argon2HashingStrategy",
+        "type": 2,
+        "memoryCost": 65536,
+        "timeCost": 3,
+        "parallelism": 4,
+        "saltLength": 16,
+        "hashLength": 32
       }
     },
     {
@@ -60,10 +63,13 @@
         ]
       ],
       "hashingStrategy": {
-        "__type": "org.x42bn6.nopassword.hashingstrategies.ScryptHashingStrategy",
-        "cost": 16384,
-        "blockSizeFactor": 8,
-        "parallelisationFactor": 1
+        "__type": "org.x42bn6.nopassword.hashingstrategies.Argon2HashingStrategy",
+        "type": 2,
+        "memoryCost": 65536,
+        "timeCost": 3,
+        "parallelism": 4,
+        "saltLength": 16,
+        "hashLength": 32
       }
     }
   ]

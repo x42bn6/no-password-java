@@ -4,6 +4,8 @@ module org.x42bn6.nopassword {
 
     requires bcrypt;
     requires scrypt;
+    requires org.bouncycastle.provider;
+    requires spring.security.crypto;
     requires com.fasterxml.jackson.databind;
 
     opens org.x42bn6.nopassword to com.fasterxml.jackson.databind;
