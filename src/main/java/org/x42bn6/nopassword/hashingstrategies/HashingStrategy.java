@@ -19,8 +19,7 @@ import com.fasterxml.jackson.annotation.JsonTypeInfo;
         property = "__type"
 )
 @JsonSubTypes({
-        @JsonSubTypes.Type(value = BcryptHashingStrategy.class, name = "bcryptHashingStrategy"),
-        @JsonSubTypes.Type(value = ScryptHashingStrategy.class, name = "scryptHashingStrategy")
+        @JsonSubTypes.Type(value = Argon2HashingStrategy.class, name = "argon2HashingStrategy")
 })
 public interface HashingStrategy {
     /**
