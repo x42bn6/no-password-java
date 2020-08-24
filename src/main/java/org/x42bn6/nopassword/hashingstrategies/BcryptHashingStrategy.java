@@ -2,6 +2,10 @@ package org.x42bn6.nopassword.hashingstrategies;
 
 import at.favre.lib.crypto.bcrypt.BCrypt;
 import at.favre.lib.crypto.bcrypt.Radix64Encoder;
+import com.fasterxml.jackson.annotation.JsonAutoDetect;
+
+import static com.fasterxml.jackson.annotation.JsonAutoDetect.Visibility.ANY;
+import static com.fasterxml.jackson.annotation.JsonAutoDetect.Visibility.NONE;
 
 /**
  * {@code BcryptHashingStrategy} is a cryptographic hashing strategy that employs the
@@ -10,6 +14,7 @@ import at.favre.lib.crypto.bcrypt.Radix64Encoder;
  * The underlying library used is
  * <a href="https://github.com/patrickfav/bcrypt">Patrick Favre-Bulle's implementation</a>.
  */
+@JsonAutoDetect(fieldVisibility = ANY, getterVisibility = NONE)
 public class BcryptHashingStrategy implements HashingStrategy {
     public static final int DEFAULT_COST = 6;
     public static final int PREFIX_LENGTH = BCrypt.Version.VERSION_2A.versionIdentifier.length;

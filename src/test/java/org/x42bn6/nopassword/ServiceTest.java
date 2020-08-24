@@ -2,6 +2,7 @@ package org.x42bn6.nopassword;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.x42bn6.nopassword.hashingstrategies.HashingStrategy;
 
 import java.util.Collection;
 
@@ -14,7 +15,7 @@ class ServiceTest {
 
     @BeforeEach
     void setUp() {
-        service = new Service("name");
+        service = new Service("name", mock(HashingStrategy.class));
     }
 
     @Test

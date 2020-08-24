@@ -2,13 +2,13 @@
   "saltMap": {
     "Google": [
       {
-        "salt": "dWJta3oyT09wUE5rSUdxVW92WDUydQ==",
+        "salt": "R0JULnY0U1pnT01Bd3FDYkZUZ1ZaLg==",
         "obsolete": false
       }
     ],
     "Steam": [
       {
-        "salt": "dVFmcm54NVdOeDVxdEZrOFVKVHdaZQ==",
+        "salt": "dy51bTBQaXJaYm5KWGlJZXhaeC9MZQ==",
         "obsolete": false
       }
     ]
@@ -29,7 +29,13 @@
             "domain": "steampowered.com"
           }
         ]
-      ]
+      ],
+      "hashingStrategy": {
+        "__type": "org.x42bn6.nopassword.hashingstrategies.ScryptHashingStrategy",
+        "cost": 16384,
+        "blockSizeFactor": 8,
+        "parallelisationFactor": 1
+      }
     },
     {
       "name": "Google",
@@ -52,21 +58,13 @@
             "domain": "youtube.com"
           }
         ]
-      ]
+      ],
+      "hashingStrategy": {
+        "__type": "org.x42bn6.nopassword.hashingstrategies.ScryptHashingStrategy",
+        "cost": 16384,
+        "blockSizeFactor": 8,
+        "parallelisationFactor": 1
+      }
     }
-  ],
-  "data": {
-    "org.x42bn6.nopassword.Service@64030b91": [
-      {
-        "salt": "dVFmcm54NVdOeDVxdEZrOFVKVHdaZQ==",
-        "obsolete": false
-      }
-    ],
-    "org.x42bn6.nopassword.Service@3eed0f5": [
-      {
-        "salt": "dWJta3oyT09wUE5rSUdxVW92WDUydQ==",
-        "obsolete": false
-      }
-    ]
-  }
+  ]
 }

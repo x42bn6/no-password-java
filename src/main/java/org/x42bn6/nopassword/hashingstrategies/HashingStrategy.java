@@ -1,5 +1,8 @@
 package org.x42bn6.nopassword.hashingstrategies;
 
+import com.fasterxml.jackson.annotation.JsonSubTypes;
+import com.fasterxml.jackson.annotation.JsonTypeInfo;
+
 /**
  * A {@code HashingStrategy} represents a cryptographic hashing strategy that is able to generate a hash with either a
  * new salt {@link #generateHashWithNewSalt(byte[])} or an existing salt {@link #generateHashWithExistingSalt(byte[],
@@ -11,6 +14,14 @@ package org.x42bn6.nopassword.hashingstrategies;
  * <p>
  * The output is a wrapper object ({@link HashOutput}) containing the salt and hashed password.
  */
+@JsonTypeInfo(
+        use = JsonTypeInfo.Id.CLASS,
+        property = "__type"
+)
+@JsonSubTypes({
+        @JsonSubTypes.Type(value = BcryptHashingStrategy.class, name = "bcryptHashingStrategy"),
+        @JsonSubTypes.Type(value = ScryptHashingStrategy.class, name = "scryptHashingStrategy")
+})
 public interface HashingStrategy {
     /**
      * Generates a cryptographic hash with a new salt and input unhashed password.
