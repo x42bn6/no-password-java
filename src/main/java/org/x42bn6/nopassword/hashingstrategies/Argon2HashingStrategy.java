@@ -104,7 +104,7 @@ public class Argon2HashingStrategy implements HashingStrategy {
         Argon2Parameters params = new Argon2Parameters.Builder(type)
                 .withSalt(salt)
                 .withParallelism(parallelism)
-                .withMemoryAsKB(memoryCost)
+                .withMemoryAsKB(Long.valueOf(memoryCost).intValue())
                 .withIterations(timeCost)
                 .build();
         Argon2BytesGenerator generator = new Argon2BytesGenerator();
@@ -135,12 +135,16 @@ public class Argon2HashingStrategy implements HashingStrategy {
 
         /**
          * The memory cost, in kB (default: 256 MB).
+         * <p>
+         * Due to library restrictions (usage of {@code int} rather than {@code long}), memory cost is capped at 2 ^ 32
+         * - 1 kB.
          *
          * @param memoryCost The memory cost to use
          * @return The builder
          */
-        public Builder memoryCost(int memoryCost) {
-            this.memoryCost = memoryCost;
+        public Builder memoryCost(long memoryCost) {
+            memoryCost = Math.min(memoryCost, Integer.MAX_VALUE);
+            this.memoryCost = Long.valueOf(memoryCost).intValue();
             return this;
         }
 
