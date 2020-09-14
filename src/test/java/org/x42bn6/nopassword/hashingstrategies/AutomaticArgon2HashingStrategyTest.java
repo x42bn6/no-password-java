@@ -6,6 +6,7 @@ class AutomaticArgon2HashingStrategyTest {
 
     @Test
     void determineOptimalStrategy() {
-        AutomaticArgon2HashingStrategy.determineOptimalStrategy();
+        // 1 core, 256 MB RAM, 1ms
+        AutomaticArgon2HashingStrategy.determineOptimalStrategy(1, (1 << 20) * 256, 1);
     }
 }
