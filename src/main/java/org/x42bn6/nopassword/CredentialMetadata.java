@@ -25,9 +25,13 @@ public class CredentialMetadata {
         this(new byte[0], null);
     }
 
-    public CredentialMetadata(byte[] salt, HashingStrategy hashingStrategy) {
+    public CredentialMetadata(byte[] salt, Service service) {
         this.salt = salt;
-        this.hashingStrategy = hashingStrategy;
+        if (null != service) {
+            this.hashingStrategy = service.getHashingStrategy();
+        } else {
+            this.hashingStrategy = null;
+        }
     }
 
     public byte[] getSalt() {

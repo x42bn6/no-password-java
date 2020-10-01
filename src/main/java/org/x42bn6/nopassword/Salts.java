@@ -73,7 +73,7 @@ public class Salts {
                     "]; cannot bind a new one");
         }
 
-        CredentialMetadata credentialMetadata = new CredentialMetadata(salt, service.getHashingStrategy());
+        CredentialMetadata credentialMetadata = new CredentialMetadata(salt, service);
         // Don't use singletonList for serialization (may want to add more later)
         Collection<CredentialMetadata> value = new ArrayList<>();
         value.add(credentialMetadata);

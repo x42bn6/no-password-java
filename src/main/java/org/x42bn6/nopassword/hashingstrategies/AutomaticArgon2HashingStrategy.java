@@ -1,8 +1,7 @@
 package org.x42bn6.nopassword.hashingstrategies;
 
-import org.x42bn6.nopassword.NoPasswordException;
+import org.x42bn6.nopassword.PRNG;
 
-import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
 
 /**
@@ -30,20 +29,11 @@ import java.security.SecureRandom;
  * </dl>
  */
 public class AutomaticArgon2HashingStrategy {
-    private static final SecureRandom SECURE_RANDOM;
+    private static final SecureRandom SECURE_RANDOM = PRNG.newInstance();
     private static final int ITERATIONS_FOR_AVERAGING = 10;
     private static final int SALT_LENGTH = 16;
     private static final int HASH_LENGTH = 32;
     public static final int ONE_SECOND_IN_MILLISECONDS = 1000;
-
-    static {
-        final String algorithm = "SHA1PRNG";
-        try {
-            SECURE_RANDOM = SecureRandom.getInstance(algorithm);
-        } catch (NoSuchAlgorithmException e) {
-            throw new NoPasswordException("Unable to find PRNG with name [" + algorithm + "]", e);
-        }
-    }
 
     /**
      * Determines the optimal strategy through hardware heuristics.

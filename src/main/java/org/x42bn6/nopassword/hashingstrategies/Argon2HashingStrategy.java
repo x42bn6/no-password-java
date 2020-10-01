@@ -3,9 +3,8 @@ package org.x42bn6.nopassword.hashingstrategies;
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import org.bouncycastle.crypto.generators.Argon2BytesGenerator;
 import org.bouncycastle.crypto.params.Argon2Parameters;
-import org.x42bn6.nopassword.NoPasswordException;
+import org.x42bn6.nopassword.PRNG;
 
-import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
 
 import static com.fasterxml.jackson.annotation.JsonAutoDetect.Visibility.ANY;
@@ -26,16 +25,7 @@ import static com.fasterxml.jackson.annotation.JsonAutoDetect.Visibility.NONE;
  */
 @JsonAutoDetect(fieldVisibility = ANY, getterVisibility = NONE)
 public class Argon2HashingStrategy implements HashingStrategy {
-    private static final SecureRandom SECURE_RANDOM;
-
-    static {
-        final String algorithm = "SHA1PRNG";
-        try {
-            SECURE_RANDOM = SecureRandom.getInstance(algorithm);
-        } catch (NoSuchAlgorithmException e) {
-            throw new NoPasswordException("Unable to find PRNG with name [" + algorithm + "]", e);
-        }
-    }
+    private static final SecureRandom SECURE_RANDOM = PRNG.newInstance();
 
     private final int type;
     private final int memoryCost;
